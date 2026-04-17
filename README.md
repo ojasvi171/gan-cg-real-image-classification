@@ -1,71 +1,100 @@
-# 🧠 GAN vs CG vs Real Image Classification (Advanced AI/ML Project)
+# 🧠 GAN vs CG vs Real Image Classification
 
 ## 📌 Overview
 
-This project focuses on **multi-class image forensics**, aiming to classify images into:
+This project focuses on **multi-class image classification** to detect whether an image is:
 
-* 🟢 Real (Photographic Images)
-* 🔵 Computer-Generated (CG Images)
-* 🔴 GAN-Generated Images
+* 🟢 Real (Photographic)
+* 🔵 Computer-Generated (CG)
+* 🔴 GAN-Generated
 
-With the increasing use of **AI-generated content and deepfakes**, detecting synthetic media has become critical for **digital forensics, cybersecurity, and misinformation control**.
+With the rise of AI-generated content and deepfakes, distinguishing synthetic images from real ones is important for **digital forensics, cybersecurity, and media verification**.
 
 ---
 
 ## 🎯 Problem Statement
 
-Unlike traditional approaches that perform **binary classification (Real vs Fake)**, this project tackles a more challenging task:
+Most existing approaches solve **binary classification (Real vs Fake)**.
+This project tackles a more challenging problem:
 
-➡️ **Three-class classification:** GAN vs CG vs Real
+➡️ **3-class classification: GAN vs CG vs Real**
 ➡️ Handles **high similarity between CG and Real images**
-➡️ Detects **subtle noise, texture, and rendering artifacts**
+➡️ Detects **subtle texture and noise differences**
 
 ---
 
-## 🧠 Methodology
+## 🧠 Models Used
 
-### 🔹 Two-Stream Architecture (Core Model)
+### 🔹 EfficientNetB0 (Baseline)
 
-The base system uses a **two-stream deep learning approach**:
+* Transfer learning using ImageNet
+* Used as initial model
+* Provides strong baseline performance
 
-1. **Feature Stream – EfficientNetB0**
+### 🔹 ResNet50 (Improved Model)
 
-   * Transfer learning with ImageNet weights
-   * Captures high-level semantic features
-
-2. **Artifact Stream – Custom CNN**
-
-   * Detects low-level noise and pixel inconsistencies
-   * Helps identify GAN artifacts and lack of camera noise in CG images
-
-➡️ Outputs are fused for final classification.
+* Deep residual architecture
+* Better feature extraction
+* Improved generalization
+* Significant accuracy improvement
 
 ---
 
-### 🔹 Improved Model (ResNet50 Enhancement)
+## ⚙️ Techniques Used
 
-To further improve performance, an additional model using **ResNet50** was implemented:
-
-* Deep residual architecture for better feature learning
-* Improved convergence and generalization
-* Helped boost classification accuracy significantly
-
-➡️ This model was used for:
-
-* performance comparison
-* improving robustness
-* validating architectural choices
-
----
-
-### 🔹 Key Techniques Used
-
-* Transfer Learning (EfficientNetB0, ResNet50)
+* Transfer Learning
 * Data Augmentation
-* Class Imbalance Handling (Focal Loss + Class Weights)
+* Class Imbalance Handling (Focal Loss)
 * Fine-Tuning (layer unfreezing)
-* Ensemble Learning (multi-phase training)
+* Multi-phase training
 * Grad-CAM (Explainable AI)
+
+---
+
+## 📊 Results & Performance
+
+### 🔹 Accuracy Comparison
+
+| Model          | Accuracy   |
+| -------------- | ---------- |
+| EfficientNetB0 | **69.99%** |
+| ResNet50       | **93%**    |
+
+📌 Test Accuracy: **93% on 2199 images**
+
+---
+
+### 🔹 Confusion Matrix (ResNet50)
+
+![Confusion Matrix](images/resnet_confusion.png)
+
+---
+
+### 🔹 ROC Curve (ResNet50)
+
+![ROC Curve](images/resnet_roc.png)
+
+---
+
+### 🔹 EfficientNet Baseline
+
+![EfficientNet](images/efficientnet_confusion.png)
+
+---
+
+### 🔹 Grad-CAM Visualization
+
+![GradCAM](images/gradcam_output.png)
+
+---
+
+## 🔍 Key Insights
+
+* Accuracy improved from **~70% → 93%**
+* GAN images are easiest to classify
+* CG images are hardest due to similarity with real images
+* Deep models like ResNet50 improve performance significantly
+* Grad-CAM shows model focuses on important texture regions
 
 ---
 
@@ -75,9 +104,9 @@ To further improve performance, an additional model using **ResNet50** was imple
 * Classes: GAN, CG, Real
 * Split:
 
-  * Training: 60%
+  * Train: 60%
   * Validation: 20%
-  * Testing: 20%
+  * Test: 20%
 
 ⚠️ Dataset not included due to size constraints.
 
@@ -93,64 +122,47 @@ To further improve performance, an additional model using **ResNet50** was imple
 
 ---
 
-## 📊 Results & Insights
-
-* Significant improvement in accuracy after ResNet50 experimentation
-* GAN images are easiest to detect
-* CG images remain the most challenging due to realism
-* Two-stream + deep backbone improves classification performance
-* Model shows robustness under compression and transformations
-
----
-
-## 🔍 Explainability (Grad-CAM)
-
-Grad-CAM is used to visualize **important regions influencing predictions**, making the model more interpretable and trustworthy.
-
----
-
 ## 📁 Project Structure
 
-```id="n3v7nq"
-├── gancgreal.ipynb               # Base model (EfficientNet), Fine-tuning, Balanced training
-├── gancgrealpart2.ipynb          # Improvements
-├── gancgrealpart3.ipynb          # Improvements
-├── RESNET50 MODEL.ipynb          # Improved model (higher accuracy)
-├── gradcamadded.ipynb            # Grad-CAM visualization
+```
+project/
+│
+├── images/
+│   ├── resnet_confusion.png
+│   ├── resnet_roc.png
+│   ├── efficientnet_confusion.png
+│   ├── gradcam_output.png
+│
+├── gancgreal.ipynb
+├── gancgrealpart2.ipynb
+├── gancgrealpart3.ipynb
+├── RESNET50 MODEL.ipynb
+├── gradcamadded.ipynb
 ├── README.md
 ```
 
 ---
 
-## 🚀 Key Features
+## 🚀 Features
 
 * Multi-class classification (GAN vs CG vs Real)
-* Two-stream CNN architecture
-* ResNet50-based performance improvement
-* Handles class imbalance effectively
+* Model comparison (EfficientNet vs ResNet50)
+* Significant accuracy improvement
 * Explainable AI using Grad-CAM
-* Designed for real-world forensic applications
+* Real-world forensic application
 
 ---
 
 ## 📚 References
 
 1. M.P. Gangan et al., *Multi-Colorspace Fused EfficientNet*, 2021
-2. K.B. Meena & V. Tyagi, *Two-stream CNN for CG Detection*, 2020
-
----
-
-## 🔮 Future Work
-
-* Deploy as a web app (Streamlit / Flask)
-* Real-time image classification API
-
+2. K.B. Meena & V. Tyagi, *Two-stream CNN Technique*, 2020
 
 ---
 
 ## 👩‍💻 Author
 
-**Ojasvi Mishra**
+Ojasvi Mishra
 B.Tech CSE
 Jaypee University of Engineering & Technology
 
@@ -158,5 +170,5 @@ Jaypee University of Engineering & Technology
 
 ## ⭐ Note
 
-This project demonstrates advanced concepts in **deep learning, image forensics, and explainable AI**, combining multiple architectures and optimization strategies for improved performance.
+This project demonstrates deep learning techniques for **image authenticity detection and forensic analysis**.
 
